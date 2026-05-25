@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUSU-SAM COMMANDER v2.1 - INTERFAZ TÁCTICA </title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --bg: #000;
+            --card: #090a0f;
+            --green: #39ff14;
+            --red: #ff0055;
+            --blue: #00e5ff;
+            --font-mono: 'Courier New', monospace;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: #fff;
+            margin: 0;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        
+        /* PORTADA DE INICIO REDISEÑADA */
+        #pantalla-portada {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #000;
+            z-index: 99999;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .portada-box {
+            background: #06070a;
+            padding: 35px 20px;
+            border-radius: 20px;
+            border: 3px solid var(--gold);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+        .portada-logo {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+        .btn-portada {
+            background: linear-gradient(180deg, #fff275, var(--gold));
+            color: #000;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: 0.2s;
+            animation: pulsoOro 2s infinite;
+        }
+        .btn-portada:active { transform: scale(0.98); }
+
+        @keyframes pulsoOro {
+            0% { box-shadow: 0 0 10px rgba(255,215,0,0.2); }
+            50% { box-shadow: 0 0 25px rgba(255,215,0,0.5); }
+            100% { box-shadow: 0 0 10px rgba(255,215,0,0.2); }
+        }
+
+        /* clave incorrecta */
+        #pantalla-bloqueo-pago {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.99);
+            z-index: 100000;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .bloqueo-box {
+            background: #0b0c12;
+            padding: 25px 20px;
+            border-radius: 20px;
+            border: 2px solid #1a1c26;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        /* COMPONENTES DE INTERFAZ */
+        .card {
+            background: var(--card);
+            border: 2px solid #161925;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            background: #020305;
+            color: #fff;
+            border: 2px solid #222639;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            border-color: var(--blue);
+            outline: none;
+        }
+        .input-monitor {
+            background: #000;
+            color: #fff;
+            border: 2px solid #1c2035;
+            border-radius: 8px;
+            padding: 8px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .input-monitor:disabled {
+            background: #0a0c14;
+            color: #a2aab8;
+            border-color: #161925;
+            cursor: not-allowed;
+        }
+
+        /* CONTROL DE INTEGRANTES */
+        .socio-box {
+            border: 2px solid #141622;
+            background: #040508;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+        }
+        .socio-box.cobrado {
+            border-left: 6px solid var(--gold);
+            background: linear-gradient(90deg, #161405, #040508);
+            border-color: #332b00;
+        }
+        .nombre {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .pago-movil {
+            font-size: 0.85rem;
+            color: var(--blue);
+            background: rgba(0, 229, 255, 0.08);
+            padding: 5px 10px;
+            border-radius: 6px;
+            margin-top: 6px;
+            display: inline-block;
+            font-family: var(--font-mono);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+        .btn-accion-socio {
+            background: #0d1017;
+            color: #b3b9c9;
+            border: 1px solid #242b3d;
+            padding: 7px 10px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 6px;
+            margin-right: 4px;
+        }
+        .btn-accion-socio:active { background: #1a202e; }
+
+        .tabla-cedula {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+        }
+        .tabla-cedula td { padding: 4px 0; color: #8e96a8; }
+        .tabla-cedula .val { color: #fff; font-weight: bold; text-align: right; }
+
+        .controles-derecha {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            min-width: 110px;
+        }
+        .piloto-btn {
+            width: 110px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-align: center;
+            border: 2px solid #333;
+            transition: background 0.2s, color 0.2s;
+        }
+        .piloto-btn.gris { background: #12141c; color: #646d80; border-color: #222636; }
+        .piloto-btn.verde { 
+            background: #052e08; color: var(--green); border-color: var(--green);
+            text-shadow: 0 0 6px var(--green); box-shadow: 0 0 10px rgba(57,255,20,0.2);
+        }
+        .piloto-btn.roja { 
+            background: #3a0014; color: var(--red); border-color: var(--red);
+            text-shadow: 0 0 6px var(--red); animation: pulsoAlerta 1.5s infinite;
+        }
+        @keyframes pulsoAlerta {
+            0% { box-shadow: 0 0 4px rgba(255,0,85,0.2); }
+            50% { box-shadow: 0 0 12px rgba(255,0,85,0.5); }
+            100% { box-shadow: 0 0 4px rgba(255,0,85,0.2); }
+        }
+
+        .btn-principal {
+            background: linear-gradient(180deg, #fff066, var(--gold));
+            color: #000;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+        }
+        .btn-principal:active { transform: scale(0.99); }
+        .btn-principal:disabled {
+            background: #1c1e24 !important;
+            color: #4e5566 !important;
+            border: 2px solid #2c3242 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+        .btn-menu-top {
+            background: #090a0f;
+            color: var(--blue);
+            border: 2px solid var(--blue);
+            width: 100%;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+        }
+
+        .badge-ranura-pote {
+            background: linear-gradient(135deg, #00b0ff, var(--blue));
+            color: #000;
+            font-weight: 900;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            float: right;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,229,255,0.3);
+        }
+        .badge-ronda-pote {
+            background: #000;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-weight: 900;
+            padding: 4px 9px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            float: right;
+            font-family: var(--font-mono);
+            margin-right: 6px;
+        }
+
+        .modal-tactico {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2,3,5,0.98);
+            z-index: 200;
+            padding: 16px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .tarjeta-auditoria {
+            background: #0e111a;
+            border: 2px solid #1d2336;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            font-family: var(--font-mono);
+        }
+        .tarjeta-auditoria .encabezado-socio {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #313a52;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .tarjeta-auditoria .encabezado-socio span { font-size: 1.1rem; font-weight: bold; color: var(--gold); }
+        .tarjeta-auditoria .estado-sub { font-size: 0.8rem; font-weight: bold; padding: 3px 8px; border-radius: 5px; }
+        .tarjeta-auditoria .estado-sub.adjudicado { background: #033621; color: var(--green); border: 1px solid var(--green); }
+        .tarjeta-auditoria .estado-sub.esperando { background: #3d2105; color: var(--gold); border: 1px solid var(--gold); }
+
+        .tabla-datos { width: 100%; font-size: 0.85rem; color: #a2aab8; border-collapse: collapse; }
+        .tabla-datos td { padding: 6px 0; }
+        .tabla-datos .val-aud { text-align: right; color: #fff; font-weight: bold; }
+        
+        .flujo-neto-caja {
+            border-top: 1px solid #2c354a;
+            margin-top: 8px;
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        #pantalla-ganador {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .cuadro-ruleta-tomb {
+            background: #05060a;
+            border: 3px dashed #1c2236;
+            padding: 30px 15px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+<div id="pantalla-portada">
+    <div class="portada-box">
+        <div style="font-size: 0.8rem; color: var(--blue); font-family: var(--font-mono); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px;">
+            ⚡ LA EVOLUCIÓN DEL SUZU-SAN
+        </div>
+        <h1 class="portada-logo">ZUSU-SAM COMMANDER</h1>
+        <div style="font-size: 1.1rem; color: #fff; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;">
+            ¡LLEGÓ TU NUEVA LIBRETA DIGITAL!
+        </div>
+
+        <div style="background: #010204; border: 1px solid #1c2035; border-radius: 12px; padding: 14px; margin-bottom: 10px; text-align: left;">
+            <span style="color: var(--blue); font-weight: 900; font-size: 0.95rem; display: block; margin-bottom: 4px;">
+                🎛️ ORGANIZA Y GESTIONA
+            </span>
+            <span style="color: #a2aab8; font-size: 0.85rem; line-height: 1.3; display: block;">
+                Controla turnos, asignaciones y fechas en un solo toque. La app recuerda los cobros por ti. Cero enredos, cuentas claras.
+            </span>
+        </div>
+
+        <div style="background: #010204; border: 1px solid #332b00; border-radius: 12px; padding: 14px; margin-bottom: 25px; text-align: left; border-left: 4px solid var(--gold);">
+            <span style="color: var(--gold); font-weight: 900; font-size: 0.95rem; display: block; margin-bottom: 4px;">
+                💰 MONETIZA TU TRABAJO
+            </span>
+            <span style="color: #fff; font-size: 0.85rem; line-height: 1.3; display: block; font-weight: 500;">
+                Asegura el Número Uno para financiamiento inmediato o configura comisiones logísticas automáticas por cada grupo que administres.
+            </span>
+        </div>
+
+        <button class="btn-portada" onclick="desbloquearCentral()" style="font-family: var(--font-mono); letter-spacing: 1px;">
+            INICIAR TURNO DIGITAL ➔
+        </button>
+        
+        <div style="font-size: 0.7rem; color: #51596b; font-family: var(--font-mono); margin-top: 15px; text-transform: uppercase;">
+            SISTEMA DE AHORRO EN GRUPOS V2.1
+        </div>
+    </div>
+</div>
+
+<div id="pantalla-bloqueo-pago">
+    <div class="bloqueo-box">
+        <h2 style="color:var(--gold); text-align:center; margin:0 0 12px 0; font-size:1.5rem; text-transform:uppercase;">🔒 bloqueo temporal ACTIVO</h2>
+        <p style="font-size:0.95rem; text-align:center; color:#a2aab8; line-height:1.4; margin:0 0 20px 0;">
+            Esta ranura requiere validación de seguridad. realiza el pago correspondiente de 5$ para continuar con el servicio <b>trabajemos juntos ZUSU-SAM</b>. .
+        </p>
+        
+        <div style="background:#000; border:2px solid #1a1c26; padding:12px; text-align:center; border-radius:10px; margin-bottom:20px;">
+            <span style="font-size:0.8rem; color:#626b7d; display:block; text-transform:uppercase; font-weight:bold;">Identidad de cuenta:</span>
+            <b id="display-id-usuario" style="font-size:2rem; color:var(--blue); font-family:var(--font-mono); letter-spacing:2px;">---</b>
+        </div>
+
+        <div style="background:#10121a; border:2px dashed #242b3d; padding:14px; margin-bottom:20px; border-radius:12px; font-size:0.9rem; line-height:1.5;">
+            <div style="color:var(--blue); font-weight:900; border-bottom:1px solid #1f2535; padding-bottom:6px; margin-bottom:8px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px;">💳 Depósito de Resguardo zusu-sam:</div>
+            <b>Pago Móvil (Venezuela - 0102)</b><br>
+            <b>Teléfono:</b> 0416-2620303<br>
+            <b>Cédula:</b> V-18.806.308<br>
+            <span style="font-size:0.8rem; color:var(--gold); display:block; margin-top:6px; font-style:italic; font-weight:bold;">⚠️ Nota: al realizar el pago correspondiente ENVIANOS TU CODIGO DE CUENTA Y SOLICITA TU CONTRASEÑA DE DESBLOQUEO PARA CONTINUAR.</span>
+        </div>
+
+        <div style="font-size:0.9rem; color:#fff; margin-bottom:6px; font-family:var(--font-mono); font-weight:bold;">🔑 CLAVE DE ACTIVACIÓN</div>
+        <input type="number" id="input-clave-activacion" placeholder="CONTRASEÑA" style="border-color:#2a3147; text-align:center; font-size:1.4rem; color:var(--green); font-family:var(--font-mono); font-weight:bold;">
+        <button class="btn-principal" style="margin-top:12px;" onclick="validarCodigoPagoSistema()"> ACTIVAR 🔓</button>
+        <a href="https://wa.me/584162620303?text=Hola, quiero solicitar mi clave de acceso para el ZUSU-SAM mi número de usuario es:." 
+           style="display: block; margin-top: 15px; text-align: center; color: var(--green); text-decoration: none; font-weight: bold; border: 1px solid var(--green); padding: 10px; border-radius: 8px;">
+           📲 Solicitar Clave por WhatsApp
+        </a>
+    </div>
+</div>
+
+<div id="setup" style="display: none;">
+    <div class="card">
+        <h2 style="color: var(--gold); text-align: center; margin: 0 0 16px 0; font-weight: 900; letter-spacing: 0.5px;">🎛️ CONFIGURACIÓN DEL ZUSU-SAM</h2>
+        <select id="setup-slot" onchange="verificarSlotExistente()"></select>
+        
+        <div id="bloque-guardado-detectado" style="display: none; text-align: center; margin: 15px 0; padding: 16px; border: 2px dashed var(--green); background: #031c07; border-radius: 12px; box-shadow: 0 0 15px rgba(57,255,20,0.15);">
+            <p style="color: var(--green); font-weight: bold; margin: 0 0 12px 0; font-size: 1.05rem;">💾 SORTEOS ALMACENADOS</p>
+            <button class="btn-principal" style="background: linear-gradient(180deg, #64ff84, var(--green)); color: #000; box-shadow: 0 4px 12px rgba(57,255,20,0.3);" onclick="cargarSanExistenteFijo()">CONTINUAR</button>
+            <button class="btn-accion-socio" style="width: 100%; padding: 12px; margin-top: 12px; color: var(--red); border-color: var(--red); font-size: 0.9rem;" onclick="forzarDespliegueFormularioLimpio(true)">➕ CONFIGURAR NUEVO GRUPO</button>
+        </div>
+
+        <div id="bloque-config-inicial">
+            <div id="alerta-bloqueo-sobrescritura" style="display:none; background:#29000a; border:2px solid var(--red); color:#fff; padding:10px; border-radius:8px; font-size:0.85rem; font-weight:bold; margin-bottom:12px; text-align:center;">
+                ⚠️ ESTA RANURA YA TIENE UN GRUPO ACTIVO. NO PUEDE SOBRESCRIBIRSE DESDE AQUÍ. SI DESEA REINICIARLA, ENTRE AL HISTORIAL Y USE EL "BORRADO GENERAL".
+            </div>
+
+            <label style="color: var(--gold); font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">💰 MONTO TOTAL DEL ZUSU-SAM ($):</label>
+            <input type="number" id="setup-pote-total" value="1000" placeholder="Ej: 1000">
+
+            <label style="color: #a2aab8; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-top: 10px; display: block;">Frecuencia del Fondo:</label>
+            <select id="setup-frecuencia">
+                <option value="Semanal" selected>Semanal</option>
+                <option value="Diario">Diario</option>
+                <option value="Quincenal">Quincenal</option>
+                <option value="Mensual">Mensual</option>
+            </select>
+
+            <label style="color: #a2aab8; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-top: 10px; display: block;">Integrantes del Comité Colectivo (Nombre, Datos de Recepción - Uno por Línea):</label>
+            <textarea id="lista-nombres" rows="7" placeholder="Nombre Completo, Datos de Red..."></textarea>
+            
+            <button id="btn-crear-sorteo-inicial" class="btn-principal" onclick="iniciarNuevoSanConSorteoInmediato()">SELECCIÓN DE TURNO AUTOMÁTICO 🎲</button>
+            <button class="btn-accion-socio" id="btn-atras-selector" style="width: 100%; padding: 12px; display: none; color: var(--red); border-color: var(--red); font-size: 0.9rem;" onclick="cancelarConfigLimpio()">REGRESAR AL MENU PRINCIPAL</button>
+        </div>
+    </div>
+</div>
+
+<div id="main" style="display: none;">
+    <div style="margin-bottom: 12px;">
+        <button class="btn-menu-top" onclick="abrirMenu()">📊 HISTORIAL CENTRAL DE AUDITORÍA</button>
+    </div>
+
+    <div class="card">
+        <div>
+            <span id="active-slot-badge" class="badge-ranura-pote" onclick="abrirPuenteSlots()">BLOQUE 1</span>
+            <span id="display-ronda-badge" class="badge-ronda-pote">MANO 1</span>
+            <small style="color: #626b7d; font-family: var(--font-mono); font-weight: bold; text-transform: uppercase;">Monitor general</small>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 14px; gap: 8px;">
+            <div style="width: 32%;">
+                <small style="color: #fff; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">MONTO DEL ZUSU-SAM ($):</small>
+                <input type="number" id="input-pote-objetivo" class="input-monitor" style="width: 100%;" disabled>
+            </div>
+            <div style="width: 32%; text-align: center;">
+                <small style="color: #fff; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">PAGO CUOTA POR TURNO:</small>
+                <div id="display-cuota-actual" style="font-size: 1.3rem; font-weight: 900; margin-top: 8px; color: var(--gold); font-family: var(--font-mono);">$0.00</div>
+            </div>
+            <div style="width: 34%; text-align: center;">
+                <small style="color: #fff; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">DESCUENTO ADMINISTRATIVO:</small>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 2px;">
+                    <input type="number" id="input-tasa-administrador" class="input-monitor" style="width: 50px; padding: 4px; font-size: 1.1rem;" value="0" oninput="dibujarTablero()">
+                    <span id="display-monto-tasa" style="color: var(--green); font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold;">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 14px; display: flex; justify-content: space-around; border-top: 1px solid #161925; padding-top: 10px;">
+            <div style="text-align: center; width: 48%; border-right: 1px dashed #161925;">
+                <small style="color: #8e96a8; font-weight: bold; font-size: 0.75rem;">MONTO REALIZADO:</small>
+                <div id="count-pagados" style="font-size: 1.3rem; color: var(--green); font-weight: bold; font-family: var(--font-mono);">0</div>
+            </div>
+            <div style="text-align: center; width: 48%;">
+                <small style="color: #8e96a8; font-weight: bold; font-size: 0.75rem;">CUOTAS PENDIENTES:</small>
+                <div id="count-porpagar" style="font-size: 1.3rem; color: var(--red); font-weight: bold; font-family: var(--font-mono);">0</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; background: #010204; border: 1px solid #161925; padding: 8px 12px; border-radius: 8px; align-items: center;">
+            <small style="color: var(--gold); font-weight: bold; font-size: 0.8rem; letter-spacing: 0.5px;">🏆GANADOR🏆 :</small>
+            <b id="res-ganador-actual" style="color: var(--blue); font-size: 1.15rem; font-family: var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;">---</b>
+        </div>
+    </div>
+
+    <div id="lista-render"></div>
+
+    <button id="btn-sorteo-central" class="btn-principal" onclick="verificarYConsolidarManoSegura()">CONFIRMAR PAGO / NUEVO SORTEO 🎲</button>
+</div>
+
+<div id="menu-modal" class="modal-tactico">
+    <div style="border-bottom: 2px solid var(--blue); padding-bottom: 12px; margin-bottom: 16px; text-align: center;">
+        <h2 style="color: var(--blue); margin: 0; font-size: 1.4rem; font-weight: 900; letter-spacing: 0.5px;">📊 HISTORIAL DE ZUSU-SAM</h2>
+        <p style="font-size: 0.85rem; color: #8e96a8; margin: 4px 0 0 0;">
+            Bloque: <span id="menu-active-slot" style="color: var(--gold); font-weight: bold;">---</span> | Frecuencia: <span id="menu-active-frecuencia" style="color: var(--blue); font-weight: bold;">---</span>
+        </p>
+    </div>
+    
+    <div id="contenedor-auditoria-tarjetas"></div>
+    
+    <div class="card" style="border-color: #1b2233;">
+        <h4 style="color: var(--gold); margin-top: 0; text-align: center; text-transform: uppercase; font-size: 0.9rem;">➕ AGREGAR NUEVO PARTICIPANTE</h4>
+        <input type="text" id="nuevo-nombre" placeholder="Nombre del Integrante">
+        <input type="text" id="nuevo-pago" placeholder="Datos de Transferencia">
+        <button class="btn-principal" style="padding: 12px; font-size: 1rem;" onclick="agregarSocioEnCaliente()">INCORPORAR NUEVO PARTICIPANTE</button>
+    </div>
+
+    <div class="card" style="border: 2px solid var(--red); background: #21000b;">
+        <h4 style="color: var(--red); margin-top: 0; text-align: center; text-transform: uppercase; font-size: 0.9rem;">⚠️ BORRADO DE REGISTRO </h4>
+        <button class="btn-principal" style="background: linear-gradient(180deg, #ff4d79, var(--red)); color: #fff; box-shadow: 0 4px 12px rgba(255,0,85,0.3);" onclick="eliminarSanCompleto()">BORRADO GENERAL</button>
+    </div>
+
+    <button class="btn-principal" style="background: #12141c; color: #fff; border: 1px solid #232838; margin-bottom: 20px;" onclick="cerrarMenu()">🔙CERRAR ATRÁS</button>
+</div>
+
+<div id="modal-puente-slots" class="modal-tactico">
+    <h3 style="color: var(--gold); text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 12px; margin-top: 10px; font-weight: 900; text-transform: uppercase;">🎛️ SELECTOR DE PARTIDAS</h3>
+    <div id="contenedor-puente-slots"></div>
+    <button class="btn-principal" style="background: #12141c; color: #fff; border: 1px solid #232838; margin-top: 20px;" onclick="cerrarPuenteSlots()">❌ ATRÁS</button>
+</div>
+
+<div id="pantalla-ganador">
+    <h2 id="ganador-titulo-alerta" style="letter-spacing: 2px; color: var(--gold); font-weight: 900; font-size: 1.8rem; text-transform: uppercase; text-align: center; text-shadow: 0 0 10px rgba(255,215,0,0.4);">
+        🎲 EJECUTANDO SORTEO DE ASIGNACIÓN...
+    </h2>
+    
+    <div class="cuadro-ruleta-tomb" id="caja-giro-tomb">PROCESANDO...</div>
+    
+    <div id="bloque-detalles-ganador" class="card" style="display: none; margin-top: 20px; width: 100%; max-width: 380px; background: #0b0d14; border-color: #1f263b;">
+        <div id="nombre-ganador" style="font-size: 2.4rem; font-weight: 900; color: var(--green); text-align: center; margin-bottom: 12px; text-shadow: 0 0 10px rgba(57,255,20,0.4);">---</div>
+        <div id="datos-ganador" style="background: #020305; padding: 14px; border-radius: 10px; width: 100%; border: 2px solid var(--blue); color: #fff; font-family: var(--font-mono); font-size: 0.9rem; box-sizing: border-box; line-height: 1.5; text-align: left;"></div>
+    </div>
+    
+    <button id="btn-cerrar-ganador" class="btn-principal" style="width: 280px; margin-top: 25px; display: none;" onclick="cerrarGanadorYSaltarAlTablero()">CONTINUAR➔</button>
+</div>
+
+<script>
+let app = {
+    socios: [],
+    cuota: 0,
+    poteFijo: 0, 
+    ronda: 1,
+    slotActual: 'SAM_1',
+    frecuencia: 'Semanal',
+    configurandoLimpio: false,
+    sistemaDesbloqueado: false,
+    comodínAsignadoId: null
+};
+
+window.onload = function() {
+    if(localStorage.getItem('SAM_STATUS_RELEASED_' + app.slotActual) === 'OK') app.sistemaDesbloqueado = true;
+};
+
+function desbloquearCentral() {
+    document.getElementById('pantalla-portada').style.display = 'none';
+    let ultimoSlot = app.slotActual || 'SAM_1';
+    document.getElementById('setup').style.display = 'block';
+    ejecutarRadarYConstruirMenu(ultimoSlot);
+}
+
+function comprobarRestriccionMano() {
+    if (app.ronda >= 3 && !app.sistemaDesbloqueado) {
+        document.getElementById('main').style.display = 'none';
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('menu-modal').style.display = 'none';
+        
+        let numeroDesafio = Math.floor(Math.random() * 90000) + 10000;
+        document.getElementById('display-id-usuario').innerText = numeroDesafio;
+        
+        document.getElementById('pantalla-bloqueo-pago').style.display = 'flex';
+        return true;
+    }
+    return false;
+}
+
+function validarCodigoPagoSistema() {
+    const entrada = parseInt(document.getElementById('input-clave-activacion').value.trim());
+    const numeroDesafio = parseInt(document.getElementById('display-id-usuario').innerText);
+    
+    let claveCorrecta = numeroDesafio * 5;
+
+    if (entrada === claveCorrecta) {
+        app.sistemaDesbloqueado = true;
+        localStorage.setItem('SAM_STATUS_RELEASED_' + app.slotActual, 'OK');
+        document.getElementById('pantalla-bloqueo-pago').style.display = 'none';
+        
+        if(localStorage.getItem(app.slotActual)) { 
+            document.getElementById('main').style.display = 'block'; 
+            dibujarTablero(); 
+        } else { 
+            document.getElementById('setup').style.display = 'block'; 
+        }
+        alert("🔓 CONTRASEÑA VERIFICADA CORRECTAMENTE: Nodo verificado y liberado.");
+    } else { 
+        alert("⚠️ CONTRASEÑA INCORRECTA."); 
+    }
+}
+
+function ejecutarRadarYConstruirMenu(slotSeleccionado) {
+    const elSelect = document.getElementById('setup-slot');
+    if (!elSelect) return;
+    const mapaSlots = { 'SAM_1': 'Bloque 1 (SAM-B1)', 'SAM_2': 'Bloque 2 (SAM-B2)', 'SAM_3': 'Bloque 3 (SAM-B3)', 'SAM_4': 'Bloque 4 (SAM-B4)' };
+    elSelect.innerHTML = "";
+    app.slotActual = slotSeleccionado;
+    
+    app.sistemaDesbloqueado = localStorage.getItem('SAM_STATUS_RELEASED_' + app.slotActual) === 'OK';
+
+    Object.keys(mapaSlots).forEach(slotId => {
+        const datosRaw = localStorage.getItem(slotId);
+        let indicador = "⚪ Disponible";
+        if(datosRaw){
+            try {
+                let d = JSON.parse(datosRaw);
+                let cobrados = d.socios.filter(s=>s.totalRecibido > 0).length;
+                indicador = `🟢 Ciclo ${d.ronda||1} (${cobrados}/${d.socios.length} Asignados)`;
+            } catch(e) { indicador = "🔴 Reiniciar Memoria"; }
+        }
+        const opt = document.createElement('option');
+        opt.value = slotId;
+        opt.innerText = `${mapaSlots[slotId]} - ${indicador}`;
+        if(slotId === slotSeleccionado) opt.selected = true;
+        elSelect.appendChild(opt);
+    });
+    verificarSlotExistente();
+}
+
+function verificarSlotExistente() {
+    const elSelect = document.getElementById('setup-slot');
+    if (!elSelect) return;
+    app.slotActual = elSelect.value;
+    
+    app.sistemaDesbloqueado = localStorage.getItem('SAM_STATUS_RELEASED_' + app.slotActual) === 'OK';
+
+    const datosRaw = localStorage.getItem(app.slotActual);
+    const bloqueDetectado = document.getElementById('bloque-guardado-detectado');
+    const bloqueConfig = document.getElementById('bloque-config-inicial');
+    const btnCrear = document.getElementById('btn-crear-sorteo-inicial');
+    const alertaSobrescritura = document.getElementById('alerta-bloqueo-sobrescritura');
+
+    if(datosRaw) {
+        if(!app.configurandoLimpio) {
+            bloqueDetectado.style.display = 'block';
+            bloqueConfig.style.display = 'none';
+        } else {
+            // BLINDAJE EJECUTADO: Si hay datos en memoria y el usuario forzó ver el formulario limpio, bloqueamos el botón de creación
+            bloqueDetectado.style.display = 'none';
+            bloqueConfig.style.display = 'block';
+            btnCrear.disabled = true;
+            alertaSobrescritura.style.display = 'block';
+        }
+    } else {
+        bloqueDetectado.style.display = 'none';
+        bloqueConfig.style.display = 'block';
+        btnCrear.disabled = false;
+        alertaSobrescritura.style.display = 'none';
+    }
+}
+
+function forzarDespliegueFormularioLimpio(activa) {
+    app.configurandoLimpio = activa;
+    document.getElementById('btn-atras-selector').style.display = activa ? 'block' : 'none';
+    verificarSlotExistente();
+}
+
+function cancelarConfigLimpio() {
+    app.configurandoLimpio = false;
+    forzarDespliegueFormularioLimpio(false);
+}
+
+function cargarSanExistenteFijo() {
+    const datosRaw = localStorage.getItem(app.slotActual);
+    if (!datosRaw) return;
+    const data = JSON.parse(datosRaw);
+    app.socios = data.socios;
+    app.poteFijo = data.poteFijo || (data.cuota * data.socios.length); 
+    app.cuota = data.cuota;
+    app.ronda = data.ronda || 1;
+    app.frecuencia = data.frecuencia || 'Semanal';
+    app.comodínAsignadoId = data.comodínAsignadoId || null;
+    
+    if (comprobarRestriccionMano()) return;
+
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    dibujarTablero();
+}
+
+function iniciarNuevoSanConSorteoInmediato() {
+    // Protección doble en la función por si intentan saltarse el bloqueo visual
+    if(localStorage.getItem(app.slotActual)) {
+        alert("🛑 OPERACIÓN RECHAZADA: Esta ranura ya contiene registros activos. Use el Borrado General si desea vaciarla.");
+        return;
+    }
+
+    const txtPoteTotal = document.getElementById('setup-pote-total').value;
+    const txtFrecuencia = document.getElementById('setup-frecuencia').value;
+    const txtNombres = document.getElementById('lista-nombres').value.trim();
+
+    if(!txtPoteTotal || !txtNombres){
+        alert("Configure el monto total del pote e ingrese la lista de los integrantes del comité.");
+        return;
+    }
+
+    app.poteFijo = parseFloat(txtPoteTotal);
+    app.frecuencia = txtFrecuencia;
+    app.ronda = 1;
+    app.socios = [];
+    app.comodínAsignadoId = null;
+
+    const lineas = txtNombres.split('\n');
+    lineas.forEach((linea, index) => {
+        if(linea.trim() === "") return;
+        const partes = linea.split(',');
+        app.socios.push({
+            id: Date.now() + index,
+            nombre: partes[0].trim(),
+            pagoMovil: partes[1] ? partes[1].trim() : "Fondo Interno",
+            historialPagos: {},
+            totalRecibido: 0,
+            manoCorona: 0,
+            fechaAdjudicacion: "",
+            motivoMora: "",
+            esComodín: false
+        });
+    });
+
+    if(app.socios.length < 2){
+        alert("Ingrese al menos 2 integrantes.");
+        return;
+    }
+
+    app.cuota = Math.round(app.poteFijo / app.socios.length);
+
+    resguardarLocalmente();
+    document.getElementById('setup').style.display = 'none';
+    ejecutarTombolaDigitalInicial();
+}
+
+function ejecutarTombolaDigitalInicial() {
+    if (comprobarRestriccionMano()) return;
+    document.getElementById('pantalla-ganador').style.display = 'flex';
+    document.getElementById('btn-cerrar-ganador').style.display = 'none';
+    document.getElementById('bloque-detalles-ganador').style.display = 'none';
+    document.getElementById('caja-giro-tomb').style.display = 'block';
+    document.getElementById('ganador-titulo-alerta').innerText = "🎲 MUCHA SUERTE...";
+
+    let vueltas = 0;
+    const totalVueltas = 30;
+    const contenedorGiro = document.getElementById('caja-giro-tomb');
+
+    const intervaloGiro = setInterval(() => {
+        const socioAzar = app.socios[vueltas % app.socios.length];
+        contenedorGiro.innerText = socioAzar.nombre.toUpperCase();
+        vueltas++;
+
+        if(vueltas >= totalVueltas){
+            clearInterval(intervaloGiro);
+            let ganador = null;
+            
+            if (app.comodínAsignadoId) {
+                ganador = app.socios.find(s => s.id === app.comodínAsignadoId);
+                app.comodínAsignadoId = null;
+            }
+            
+            if (!ganador) {
+                let sinCobrar = app.socios.filter(s => !s.totalRecibido || s.totalRecibido === 0);
+                ganador = sinCobrar.length > 0 ? sinCobrar[Math.floor(Math.random() * sinCobrar.length)] : app.socios[Math.floor(Math.random() * app.socios.length)];
+            }
+
+            const h = new Date();
+            const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+            ganador.fechaAdjudicacion = `${h.getDate()}-${meses[h.getMonth()]}-2026`;
+            ganador.totalRecibido = app.poteFijo; 
+            ganador.manoCorona = app.ronda;
+
+            resguardarLocalmente();
+
+            document.getElementById('ganador-titulo-alerta').innerText = ganador.esComodín ? "🛟 activado🛟" : "🏆 GANADOR 🏆";
+            contenedorGiro.style.display = 'none';
+            document.getElementById('nombre-ganador').innerText = ganador.nombre.toUpperCase();
+            
+            let tasaAdmin = parseFloat(document.getElementById('input-tasa-administrador').value) || 0;
+            let bruto = ganador.totalRecibido;
+            let retencion = Math.round(bruto * (tasaAdmin / 100) * 100) / 100;
+            let neto = bruto - retencion;
+
+            document.getElementById('datos-ganador').innerHTML = `
+                📊 TURNO/MANO: ${app.ronda}<br>
+                💰 MONTO TOTAL DEL ZUSU-SAM: $${bruto}.00 USD<br>
+                ⚙️ DESCUENTO ADMIN (${tasaAdmin}%): -$${retencion.toFixed(2)} USD<br>
+                🟢 PAGO TOTAL LIBERADO: $${neto.toFixed(2)} USD<br>
+                📅 FECHA DE ENTREGA : ${ganador.fechaAdjudicacion}<br>
+                📱 TRANSFERIR A: ${ganador.pagoMovil}
+            `;
+
+            document.getElementById('bloque-detalles-ganador').style.display = 'block';
+            document.getElementById('btn-cerrar-ganador').style.display = 'block';
+        }
+    }, 120);
+}
+
+function cerrarGanadorYSaltarAlTablero() {
+    document.getElementById('pantalla-ganador').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    dibujarTablero();
+}
+
+function dibujarTablero() {
+    if (comprobarRestriccionMano()) return;
+    const contenedor = document.getElementById('lista-render');
+    contenedor.innerHTML = "";
+
+    document.getElementById('display-ronda-badge').innerText = `MANO ${app.ronda}`;
+    document.getElementById('active-slot-badge').innerText = app.slotActual.replace('_', ' ');
+    document.getElementById('display-cuota-actual').innerText = `$${app.cuota}.00`;
+
+    document.getElementById('input-pote-objetivo').value = app.poteFijo;
+
+    let tasaAdmin = parseFloat(document.getElementById('input-tasa-administrador').value) || 0;
+    let retencionCalculada = Math.round(app.poteFijo * (tasaAdmin / 100) * 100) / 100;
+    document.getElementById('display-monto-tasa').innerText = `➔ $${retencionCalculada.toFixed(2)} USD`;
+
+    let pagadosContador = 0;
+    let porPagarContador = 0;
+
+    let ganadorManoActual = app.socios.find(s => s.manoCorona === app.ronda);
+    const monitorGanador = document.getElementById('res-ganador-actual');
+    if(ganadorManoActual) {
+        monitorGanador.innerText = `${ganadorManoActual.nombre.toUpperCase()} ${ganadorManoActual.esComodín ? '🛟' : '👑'}`;
+        monitorGanador.style.color = "var(--green)";
+    } else {
+        monitorGanador.innerText = "PROCESANDO...";
+        monitorGanador.style.color = "var(--blue)";
+    }
+
+    app.socios.forEach((socio, index) => {
+        let pagoMano = socio.historialPagos[app.ronda] || "Pendiente";
+        let clasePiloto = "gris";
+        let textoPiloto = "PENDIENTE";
+        let deudaEsteCiclo = app.cuota;
+
+        if(pagoMano === "OK") {
+            clasePiloto = "verde"; 
+            textoPiloto = "✓ OK"; 
+            deudaEsteCiclo = 0; 
+            pagadosContador++;
+        } else if(pagoMano === "MORA") {
+            clasePiloto = "roja"; 
+            textoPiloto = "⚠️ ADVERTENCIA"; 
+            porPagarContador++;
+        } else {
+            porPagarContador++;
+        }
+
+        let totalAportadoHistorial = Object.values(socio.historialPagos).filter(p => p === "OK").length * app.cuota;
+        let insigniaAlFrente = socio.esComodín ? `<span style="color:var(--blue); font-size:1.1rem; margin-left:6px;">🛟</span>` : (socio.totalRecibido > 0 ? `<span style="color:var(--gold); font-size:1.1rem; margin-left:6px;">👑</span>` : '');
+
+        let cajaSocio = document.createElement('div');
+        cajaSocio.className = `socio-box ${socio.manoCorona === app.ronda ? 'cobrado' : ''}`;
+        
+        cajaSocio.innerHTML = `
+            <div style="width: 70%;">
+                <div class="nombre">${socio.nombre.toUpperCase()} ${insigniaAlFrente}</div>
+                <div class="pago-movil">📱 RECEPCIÓN: ${socio.pagoMovil}</div>
+                ${socio.motivoMora ? `<div style="color:var(--red); font-size:0.75rem; margin-top:4px; font-weight:bold; font-family:var(--font-mono);">📝 NOTA: ${socio.motivoMora}</div>` : ''}
+                <div>
+                    <button class="btn-accion-socio" onclick="editarSocioCampos(${index})">📝 Corregir Datos</button>
+                    <button class="btn-accion-socio" id="btn-como-${socio.id}" style="color:var(--blue); border-color:${socio.esComodín?'var(--blue)':'#242b3d'}" ${socio.totalRecibido > 0 || socio.esComodín ? 'disabled style="opacity:0.4;"' : ''} onclick="activarComodínAuxilio(${index})">🛟 Auxilio Mutuo</button>
+                </div>
+                <table class="tabla-cedula">
+                    <tr><td>Fondo Consolidado Integrado:</td><td class="val" style="color:var(--green);">$${totalAportadoHistorial}.00</td></tr>
+                    <tr><td>Saldo de Etapa Local:</td><td class="val" style="color:${deudaEsteCiclo>0?'var(--red)':'var(--green)'};">$${deudaEsteCiclo}.00</td></tr>
+                </table>
+            </div>
+            <div class="controles-derecha">
+                <div class="piloto-btn ${clasePiloto}" onclick="conmutarPilotoSocio(${index})">${textoPiloto}</div>
+            </div>
+        `;
+        contenedor.appendChild(cajaSocio);
+    });
+
+    document.getElementById('count-pagados').innerText = pagadosContador;
+    document.getElementById('count-porpagar').innerText = porPagarContador;
+}
+
+function conmutarPilotoSocio(index) {
+    let socio = app.socios[index];
+    let actual = socio.historialPagos[app.ronda];
+    if(!actual || actual === "Pendiente"){
+        socio.historialPagos[app.ronda] = "OK";
+        socio.motivoMora = "";
+    } else if(actual === "OK") {
+        socio.historialPagos[app.ronda] = "MORA";
+        let mot = prompt("Especifique la observación interna de la Célula de Control:", socio.motivoMora);
+        socio.motivoMora = mot ? mot.trim() : "Retraso Técnico";
+    } else {
+        socio.historialPagos[app.ronda] = "Pendiente";
+        socio.motivoMora = "";
+    }
+    resguardarLocalmente();
+    dibujarTablero();
+}
+
+function activarComodínAuxilio(index) {
+    let socio = app.socios[index];
+    if (socio.totalRecibido > 0) return;
+    
+    if(confirm(`¿Aprobar asignación directa por Auxilio de Emergencia para ${socio.nombre.toUpperCase()}? El proceso aleatorio quedará suspendido por decisión unánime de los integrantes.`)) {
+        app.socios.forEach(s => { if(!s.totalRecibido) s.esComodín = false; });
+        
+        socio.esComodín = true;
+        app.comodínAsignadoId = socio.id;
+        resguardarLocalmente();
+        dibujarTablero();
+        alert(`🛟 ASIGNACIÓN CONFIGURADA. El ciclo ${app.ronda} se adjudicará sin sorteo para cubrir la prioridad aprobada por el comité.`);
+    }
+}
+
+function editarSocioCampos(index) {
+    let socio = app.socios[index];
+    const nuevoNom = prompt("Modificar nombre del integrante del comité:", socio.nombre);
+    if(nuevoNom !== null && nuevoNom.trim() !== "") socio.nombre = nuevoNom.trim();
+    
+    const nuevosDatos = prompt("Modificar ruta de transferencia coordinada:", socio.pagoMovil);
+    if(nuevosDatos !== null) socio.pagoMovil = nuevosDatos.trim();
+
+    resguardarLocalmente();
+    dibujarTablero();
+}
+
+function verificarYConsolidarManoSegura() {
+    if ((app.ronda + 1) >= 3 && !app.sistemaDesbloqueado) { 
+        app.ronda++; 
+        resguardarLocalmente();
+        comprobarRestriccionMano(); 
+        return; 
+    }
+    
+    let pendientes = app.socios.filter(s => s.historialPagos[app.ronda] !== "OK");
+    if(pendientes.length > 0){
+        if(!confirm(`Se registran ${pendientes.length} asignaciones en tránsito. Al proceder, la Célula de Logística asume solidariamente el balance temporal de forma interna para no congelar los fondos del comité. ¿Ejecutar?`)) return;
+    }
+
+    let cobradosTotales = app.socios.filter(s => s.totalRecibido > 0).length;
+    if(cobradosTotales >= app.socios.length){
+        alert("Ciclo global completado con éxito por el comité cooperativo. Revise el libro de actas.");
+        abrirMenu();
+        return;
+    }
+
+    app.ronda++;
+    resguardarLocalmente();
+    document.getElementById('main').style.display = 'none';
+    ejecutarTombolaDigitalInicial();
+}
+
+function resguardarLocalmente() {
+    localStorage.setItem(app.slotActual, JSON.stringify({
+        socios: app.socios,
+        cuota: app.cuota,
+        poteFijo: app.poteFijo,
+        ronda: app.ronda,
+        frecuencia: app.frecuencia,
+        comodínAsignadoId: app.comodínAsignadoId
+    }));
+}
+
+function abrirMenu() {
+    document.getElementById('menu-active-slot').innerText = app.slotActual.replace('_', ' ');
+    document.getElementById('menu-active-frecuencia').innerText = app.frecuencia;
+    document.getElementById('menu-modal').style.display = 'block';
+    calcularYRenderizarAuditoria();
+}
+
+function cerrarMenu() {
+    document.getElementById('menu-modal').style.display = 'none';
+    dibujarTablero();
+}
+
+function calcularYRenderizarAuditoria() {
+    const contenedor = document.getElementById('contenedor-auditoria-tarjetas');
+    contenedor.innerHTML = "";
+    let contratoTotal = app.poteFijo;
+    let tasaAdmin = parseFloat(document.getElementById('input-tasa-administrador').value) || 0;
+    let totalSocioLimite = app.socios.length;
+
+    app.socios.forEach(socio => {
+        let cantAportesRealizados = Object.values(socio.historialPagos).filter(p => p === "OK").length;
+        let pagosRealizadosCard = cantAportesRealizados * app.cuota;
+        
+        let brutoAdjudicado = socio.totalRecibido > 0 ? contratoTotal : 0;
+        let retencion = Math.round(brutoAdjudicado * (tasaAdmin / 100) * 100) / 100;
+        let netoAdjudicado = brutoAdjudicado - retencion;
+
+        let rondaDeberiaLlevar = app.ronda;
+        if(rondaDeberiaLlevar > totalSocioLimite) rondaDeberiaLlevar = totalSocioLimite;
+        
+        let aportesDeberiaLlevar = rondaDeberiaLlevar * app.cuota;
+        if(aportesDeberiaLlevar > contratoTotal) aportesDeberiaLlevar = contratoTotal;
+
+        let pagosPendientesCard = contratoTotal - pagosRealizadosCard;
+        if (pagosPendientesCard < 0) pagosPendientesCard = 0;
+
+        let montoPorPagarFinal = 0;
+
+        let estadoRondaActual = socio.historialPagos[app.ronda] || "Pendiente";
+        
+        if (estadoRondaActual === "OK") {
+            montoPorPagarFinal = 0;
+        } else {
+            let balanceTeorico = aportesDeberiaLlevar - pagosRealizadosCard;
+            montoPorPagarFinal = balanceTeorico > 0 ? balanceTeorico : 0;
+        }
+
+        let tarjeta = document.createElement('div');
+        tarjeta.className = "tarjeta-auditoria";
+        tarjeta.innerHTML = `
+            <div class="encabezado-socio">
+                <span>👤 ${socio.nombre.toUpperCase()}</span>
+                <div class="estado-sub ${socio.totalRecibido>0?'adjudicado':'esperando'}">
+                    ${socio.totalRecibido>0 ? (socio.esComodín ? '🛟 AUXILIO ASIGNADO (Mano '+socio.manoCorona+')' : '👑 FONDO LIBERADO (Mano '+socio.manoCorona+')') : '⏳ EN ESPERA'}
+                </div>
+            </div>
+            <table class="tabla-datos">
+                <tr><td>Monto total del zusu-sam:</td><td class="val-aud">$${contratoTotal.toFixed(2)}</td></tr>
+                <tr><td>Pagos realizados en total:</td><td class="val-aud" style="color:var(--green);">$${pagosRealizadosCard.toFixed(2)}</td></tr>
+                <tr><td>Saldo total para cerrar contrato:</td><td class="val-aud" style="color:var(--gold);">$${pagosPendientesCard.toFixed(2)}</td></tr>
+                ${socio.totalRecibido > 0 ? `
+                <tr><td>Pago bruto entregado:</td><td class="val-aud">$${brutoAdjudicado.toFixed(2)}</td></tr>
+                <tr><td>Comisión logística (${tasaAdmin}%):</td><td class="val-aud" style="color:var(--red);">-$${retencion.toFixed(2)}</td></tr>
+                <tr><td>Monto neto liquidado:</td><td class="val-aud" style="color:var(--green);">$${netoAdjudicado.toFixed(2)}</td></tr>
+                ` : ''}
+            </table>
+            <div class="flujo-neto-caja">
+                <span>POR PAGAR HOY (MANO ${rondaDeberiaLlevar}):</span>
+                <span style="color:${montoPorPagarFinal === 0 ? 'var(--green)' : 'var(--red)'}; font-family:var(--font-mono); font-weight:bold;">$${montoPorPagarFinal.toFixed(2)} USD</span>
+            </div>
+        `;
+        contenedor.appendChild(tarjeta);
+    });
+}
+
+function agregarSocioEnCaliente() {
+    const nom = document.getElementById('nuevo-nombre').value.trim();
+    const pag = document.getElementById('nuevo-pago').value.trim();
+    if(!nom) return;
+
+    app.socios.push({
+        id: Date.now(),
+        nombre: nom,
+        pagoMovil: pag || "Fondo Colectivo",
+        historialPagos: {},
+        totalRecibido: 0,
+        manoCorona: 0,
+        fechaAdjudicacion: "",
+        motivoMora: "",
+        esComodín: false
+    });
+
+    app.cuota = Math.round(app.poteFijo / app.socios.length);
+
+    document.getElementById('nuevo-nombre').value = "";
+    document.getElementById('nuevo-pago').value = "";
+    resguardarLocalmente();
+    alert("Integrante incorporado con éxito por acuerdo de los integrantes. La cuota individual ha sido reajustada automáticamente.");
+    calcularYRenderizarAuditoria();
+}
+
+function eliminarSanCompleto() {
+    if(!confirm("🔥 ALERTA DE SEGURIDAD: ¿Desea formatear la memoria completa de esta ranura? Esta acción borrará el libro de actas local definitivamente y desvincula las firmas.")) return;
+    localStorage.removeItem(app.slotActual);
+    localStorage.removeItem('SAM_STATUS_RELEASED_' + app.slotActual);
+    location.reload();
+}
+
+function abrirPuenteSlots() {
+    const contenedor = document.getElementById('contenedor-puente-slots');
+    contenedor.innerHTML = "";
+    const slots = ['SAM_1','SAM_2','SAM_3','SAM_4'];
+
+    slots.forEach(id => {
+        let datos = localStorage.getItem(id);
+        let det = "Bloque Libre (Memoria Limpia)";
+        if(datos){
+            try {
+                let p = JSON.parse(datos);
+                det = `Mano ${p.ronda||1} - ${p.frecuencia||'Semanal'} (${p.socios?.length||0} Miembros)`;
+            } catch(e) { det = "Datos Corruptos"; }
+        }
+
+        const btn = document.createElement('button');
+        btn.className = "btn-principal";
+        btn.style.marginBottom = "10px";
+        btn.style.background = "#0d111a";
+        btn.style.color = "#fff";
+        btn.style.border = "2px solid #20273d";
+        btn.innerHTML = `<span style="float:left; color:var(--gold); font-weight:bold;">🎛️ ${id.replace('_',' ')}</span><span style="float:right; font-size:0.8rem; color:#8e96a8;">${det}</span>`;
+        
+        btn.onclick = () => {
+            app.slotActual = id;
+            document.getElementById('modal-puente-slots').style.display = 'none';
+            if(localStorage.getItem(id)){
+                cargarSanExistenteFijo();
+            } else {
+                app.socios = []; app.ronda = 1;
+                document.getElementById('main').style.display = 'none';
+                document.getElementById('setup').style.display = 'block';
+                ejecutarRadarYConstruirMenu(id);
+            }
+        };
+        contenedor.appendChild(btn);
+    }); 
+    document.getElementById('modal-puente-slots').style.display = 'block';
+}
+
+function cerrarPuenteSlots() { document.getElementById('modal-puente-slots').style.display = 'none'; }
+</script>
+</body>
+</html>
