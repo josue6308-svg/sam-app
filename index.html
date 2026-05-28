@@ -2,10 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZUSU-SAM COMMANDER v2.1 - INTERFAZ TÁCTICA </title>
+    <title>ZUSU-SAM COMMANDER v2.1 - INTERFAZ TÁCTICA</title>
     <style>
         :root {
             --gold: #ffd700;
@@ -83,7 +81,7 @@
             100% { box-shadow: 0 0 10px rgba(255,215,0,0.2); }
         }
 
-        /* clave incorrecta */
+        /* CLAVE INCORRECTA / PANTALLA BLOQUEO COMERCIAL */
         #pantalla-bloqueo-pago {
             display: none;
             height: 100vh;
@@ -104,11 +102,11 @@
             background: #0b0c12;
             padding: 25px 20px;
             border-radius: 20px;
-            border: 2px solid #1a1c26;
+            border: 2px solid #ff4444;
             width: 100%;
             max-width: 420px;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
         }
 
         /* COMPONENTES DE INTERFAZ */
@@ -265,13 +263,6 @@
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
         }
         .btn-principal:active { transform: scale(0.99); }
-        .btn-principal:disabled {
-            background: #1c1e24 !important;
-            color: #4e5566 !important;
-            border: 2px solid #2c3242 !important;
-            cursor: not-allowed !important;
-            box-shadow: none !important;
-        }
         .btn-menu-top {
             background: #090a0f;
             color: var(--blue);
@@ -399,7 +390,7 @@
             ⚡ LA EVOLUCIÓN DEL SUZU-SAN
         </div>
         <h1 class="portada-logo">ZUSU-SAM COMMANDER</h1>
-        <div style="font-size: 1.1rem; color: #fff; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;">
+        <div style="font-size: 1.5rem; color: #ff; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;">
             ¡LLEGÓ TU NUEVA LIBRETA DIGITAL!
         </div>
 
@@ -408,7 +399,7 @@
                 🎛️ ORGANIZA Y GESTIONA
             </span>
             <span style="color: #a2aab8; font-size: 0.85rem; line-height: 1.3; display: block;">
-                Controla turnos, asignaciones y fechas en un solo toque. La app recuerda los cobros por ti. Cero enredos, cuentas claras.
+                Controla turnos, asignaciones y fechas con un solo toque. La app recuerda los cobros por ti. Cero enredos, cuentas claras.
             </span>
         </div>
 
@@ -417,7 +408,7 @@
                 💰 MONETIZA TU TRABAJO
             </span>
             <span style="color: #fff; font-size: 0.85rem; line-height: 1.3; display: block; font-weight: 500;">
-                Asegura el Número Uno para financiamiento inmediato o configura comisiones logísticas automáticas por cada grupo que administres.
+                Asegura el primer turno para financiamiento inmediato o configura comisiones logísticas automáticas por cada grupo que administres.
             </span>
         </div>
 
@@ -426,38 +417,31 @@
         </button>
         
         <div style="font-size: 0.7rem; color: #51596b; font-family: var(--font-mono); margin-top: 15px; text-transform: uppercase;">
-            SISTEMA DE AHORRO EN GRUPOS V2.1
+            SISTEMA DE AHORRO EN GRUPOS V2.5 automático 
         </div>
     </div>
 </div>
 
 <div id="pantalla-bloqueo-pago">
-    <div class="bloqueo-box">
-        <h2 style="color:var(--gold); text-align:center; margin:0 0 12px 0; font-size:1.5rem; text-transform:uppercase;">🔒 bloqueo temporal ACTIVO</h2>
-        <p style="font-size:0.95rem; text-align:center; color:#a2aab8; line-height:1.4; margin:0 0 20px 0;">
-            Esta ranura requiere validación de seguridad. realiza el pago correspondiente de 5$ para continuar con el servicio <b>trabajemos juntos ZUSU-SAM</b>. .
+    <div class="bloqueo-box" style="margin-top: 50px;">
+        <h2 style="color:#ff4444; text-align:center; margin:0 0 12px 0; font-size:1.5rem; text-transform:uppercase; letter-spacing: 1px;">🔒 BLOQUEO DE SEGURIDAD</h2>
+        <p style="font-size:0.95rem; text-align:center; color:#a2aab8; line-height:1.4; margin:0 0 25px 0;">
+            Esta ranura requiere validación comercial. Adquiera una clave de activación para continuar utilizando todas las funciones del gestor automatizado <b>ZUSU-SAM COMMANDER</b>.
         </p>
         
-        <div style="background:#000; border:2px solid #1a1c26; padding:12px; text-align:center; border-radius:10px; margin-bottom:20px;">
-            <span style="font-size:0.8rem; color:#626b7d; display:block; text-transform:uppercase; font-weight:bold;">Identidad de cuenta:</span>
-            <b id="display-id-usuario" style="font-size:2rem; color:var(--blue); font-family:var(--font-mono); letter-spacing:2px;">---</b>
-        </div>
-
-        <div style="background:#10121a; border:2px dashed #242b3d; padding:14px; margin-bottom:20px; border-radius:12px; font-size:0.9rem; line-height:1.5;">
-            <div style="color:var(--blue); font-weight:900; border-bottom:1px solid #1f2535; padding-bottom:6px; margin-bottom:8px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px;">💳 Depósito de Resguardo zusu-sam:</div>
-            <b>Pago Móvil (Venezuela - 0102)</b><br>
-            <b>Teléfono:</b> 0416-2620303<br>
-            <b>Cédula:</b> V-18.806.308<br>
-            <span style="font-size:0.8rem; color:var(--gold); display:block; margin-top:6px; font-style:italic; font-weight:bold;">⚠️ Nota: al realizar el pago correspondiente ENVIANOS TU CODIGO DE CUENTA Y SOLICITA TU CONTRASEÑA DE DESBLOQUEO PARA CONTINUAR.</span>
-        </div>
-
-        <div style="font-size:0.9rem; color:#fff; margin-bottom:6px; font-family:var(--font-mono); font-weight:bold;">🔑 CLAVE DE ACTIVACIÓN</div>
-        <input type="number" id="input-clave-activacion" placeholder="CONTRASEÑA" style="border-color:#2a3147; text-align:center; font-size:1.4rem; color:var(--green); font-family:var(--font-mono); font-weight:bold;">
-        <button class="btn-principal" style="margin-top:12px;" onclick="validarCodigoPagoSistema()"> ACTIVAR 🔓</button>
-        <a href="https://wa.me/584162620303?text=Hola, quiero solicitar mi clave de acceso para el ZUSU-SAM mi número de usuario es:." 
-           style="display: block; margin-top: 15px; text-align: center; color: var(--green); text-decoration: none; font-weight: bold; border: 1px solid var(--green); padding: 10px; border-radius: 8px;">
-           📲 Solicitar Clave por WhatsApp
+        <a href="https://payhip.com/b/lzokR" id="btn-caja-registradora" target="_blank" style="display: block; background: linear-gradient(180deg, #2fb546, #1e7e2e); color: white; padding: 16px; text-align: center; font-weight: bold; font-size: 1.1rem; text-decoration: none; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(40,167,69,0.3); text-transform: uppercase; letter-spacing: 0.5px;">
+            🛒 COMPRAR CLAVE DE ACTIVACIÓN ($5)
         </a>
+
+        <div style="border-top: 1px dashed #2a3147; padding-top: 20px;">
+            <div style="font-size:0.9rem; color:#fff; margin-bottom:8px; font-family:var(--font-mono); font-weight:bold; text-align: center; letter-spacing: 1px;">🔑 INGRESE SU CLAVE DE ACTIVACIÓN</div>
+            <input type="text" id="input-clave-activacion" placeholder="PEGUE O ESCRIBA SU CLAVE AQUÍ..." style="border-color:#2a3147; text-align:center; font-size:1.2rem; color:var(--green); font-family:var(--font-mono); font-weight:bold; text-transform: uppercase;">
+            <button class="btn-principal" style="margin-top:12px; background: linear-gradient(180deg, #fff066, var(--gold)); color: #000;" onclick="validarCodigoPagoSistema()"> ACTIVAR SISTEMA 🔓</button>
+        </div>
+        
+        <div style="font-size: 0.7rem; color: #51596b; font-family: var(--font-mono); text-align: center; margin-top: 20px; text-transform: uppercase;">
+            Licencia por Grupo de Ahorro Colectivo
+        </div>
     </div>
 </div>
 
@@ -469,14 +453,14 @@
         <div id="bloque-guardado-detectado" style="display: none; text-align: center; margin: 15px 0; padding: 16px; border: 2px dashed var(--green); background: #031c07; border-radius: 12px; box-shadow: 0 0 15px rgba(57,255,20,0.15);">
             <p style="color: var(--green); font-weight: bold; margin: 0 0 12px 0; font-size: 1.05rem;">💾 SORTEOS ALMACENADOS</p>
             <button class="btn-principal" style="background: linear-gradient(180deg, #64ff84, var(--green)); color: #000; box-shadow: 0 4px 12px rgba(57,255,20,0.3);" onclick="cargarSanExistenteFijo()">CONTINUAR</button>
-            <button class="btn-accion-socio" style="width: 100%; padding: 12px; margin-top: 12px; color: var(--red); border-color: var(--red); font-size: 0.9rem;" onclick="forzarDespliegueFormularioLimpio(true)">➕ CONFIGURAR NUEVO GRUPO</button>
+            <button class="btn-accion-socio" style="width: 100%; padding: 12px; margin-top: 12px; color: var(--gold); border-color: var(--gold); font-size: 0.9rem;" onclick="forzarDespliegueFormularioLimpio(true)">➕ CONFIGURAR NUEVO GRUPO</button>
+        </div>
+
+        <div id="advertencia-sobreescritura-bloqueo" style="display: none; text-align: center; margin: 15px 0; padding: 16px; border: 2px solid var(--red); background: #21030d; border-radius: 12px;">
+            <p style="color: #ff4444; font-weight: bold; margin: 0; font-size: 0.95rem;">⚠️ ESTA RANURA YA TIENE UN GRUPO ACTIVO. NO PUEDE SOBRESCRIBIRSE DESDE AQUÍ. SI DESEA REINICIARLA, ENTRE AL HISTORIAL Y USE EL "BORRADO GENERAL".</p>
         </div>
 
         <div id="bloque-config-inicial">
-            <div id="alerta-bloqueo-sobrescritura" style="display:none; background:#29000a; border:2px solid var(--red); color:#fff; padding:10px; border-radius:8px; font-size:0.85rem; font-weight:bold; margin-bottom:12px; text-align:center;">
-                ⚠️ ESTA RANURA YA TIENE UN GRUPO ACTIVO. NO PUEDE SOBRESCRIBIRSE DESDE AQUÍ. SI DESEA REINICIARLA, ENTRE AL HISTORIAL Y USE EL "BORRADO GENERAL".
-            </div>
-
             <label style="color: var(--gold); font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">💰 MONTO TOTAL DEL ZUSU-SAM ($):</label>
             <input type="number" id="setup-pote-total" value="1000" placeholder="Ej: 1000">
 
@@ -491,7 +475,7 @@
             <label style="color: #a2aab8; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-top: 10px; display: block;">Integrantes del Comité Colectivo (Nombre, Datos de Recepción - Uno por Línea):</label>
             <textarea id="lista-nombres" rows="7" placeholder="Nombre Completo, Datos de Red..."></textarea>
             
-            <button id="btn-crear-sorteo-inicial" class="btn-principal" onclick="iniciarNuevoSanConSorteoInmediato()">SELECCIÓN DE TURNO AUTOMÁTICO 🎲</button>
+            <button class="btn-principal" id="btn-ejecutar-sorteo-init" onclick="iniciarNuevoSanConSorteoInmediato()">SELECCIÓN DE TURNO AUTOMÁTICO 🎲</button>
             <button class="btn-accion-socio" id="btn-atras-selector" style="width: 100%; padding: 12px; display: none; color: var(--red); border-color: var(--red); font-size: 0.9rem;" onclick="cancelarConfigLimpio()">REGRESAR AL MENU PRINCIPAL</button>
         </div>
     </div>
@@ -608,6 +592,39 @@ let app = {
     comodínAsignadoId: null
 };
 
+// =========================================================================
+// LISTA DE CONTRASEÑAS PILOTO (TEMPORAL: CAMBIAREMOS ESTAS LUEGO)
+// =========================================================================
+// LISTA DE CONTRASEÑAS DE ALTA CAPACIDAD (100 CÓDIGOS + CLAVE MAESTRA)
+// =========================================================================
+
+// CLAVE MAESTRA PARA TUS PRUEBAS (Úsala cuantas veces quieras, nunca se agota)
+const CLAVE_MAESTRA_DESARROLLADOR = "PROBANDO_ZUSU_2026";
+
+// LISTA DE 100 CÓDIGOS ÚNICOS PARA CLIENTES DE PAYHIP
+var LISTA_CONTRASENAS_VALIDAS = [
+    // Bloque 1 (01-10)
+    "ZUSU101A", "ZUSU102B", "ZUSU103C", "ZUSU104D", "ZUSU105E", "ZUSU106F", "ZUSU107G", "ZUSU108H", "ZUSU109I", "ZUSU110J",
+    // Bloque 2 (11-20)
+    "SAM201K", "SAM202L", "SAM203M", "SAM204N", "SAM205O", "SAM206P", "SAM207Q", "SAM208R", "SAM209S", "SAM210T",
+    // Bloque 3 (21-30)
+    "GOLD301", "GOLD302", "GOLD303", "GOLD304", "GOLD305", "GOLD306", "GOLD307", "GOLD308", "GOLD309", "GOLD310",
+    // Bloque 4 (31-40)
+    "ZUSU401", "ZUSU402", "ZUSU403", "ZUSU404", "ZUSU405", "ZUSU406", "ZUSU407", "ZUSU408", "ZUSU409", "ZUSU410",
+    // Bloque 5 (41-50)
+    "SAM501X", "SAM502X", "SAM503X", "SAM504X", "SAM505X", "SAM506X", "SAM507X", "SAM508X", "SAM509X", "SAM510X",
+    // Bloque 6 (51-60)
+    "AHO601", "AHO602", "AHO603", "AHO604", "AHO605", "AHO606", "AHO607", "AHO608", "AHO609", "AHO610",
+    // Bloque 7 (61-70)
+    "ZUSU701", "ZUSU702", "ZUSU703", "ZUSU704", "ZUSU705", "ZUSU706", "ZUSU707", "ZUSU708", "ZUSU709", "ZUSU710",
+    // Bloque 8 (71-80)
+    "SAM801", "SAM802", "SAM803", "SAM804", "SAM805", "SAM806", "SAM807", "SAM808", "SAM809", "SAM810",
+    // Bloque 9 (81-90)
+    "VIP901", "VIP902", "VIP903", "VIP904", "VIP905", "VIP906", "VIP907", "VIP908", "VIP909", "VIP910",
+    // Bloque 10 (91-100)
+    "ZUSU991", "ZUSU992", "ZUSU993", "ZUSU994", "ZUSU995", "ZUSU996", "ZUSU997", "ZUSU998", "ZUSU999", "SAM1000"
+];
+
 window.onload = function() {
     if(localStorage.getItem('SAM_STATUS_RELEASED_' + app.slotActual) === 'OK') app.sistemaDesbloqueado = true;
 };
@@ -625,9 +642,7 @@ function comprobarRestriccionMano() {
         document.getElementById('setup').style.display = 'none';
         document.getElementById('menu-modal').style.display = 'none';
         
-        let numeroDesafio = Math.floor(Math.random() * 90000) + 10000;
-        document.getElementById('display-id-usuario').innerText = numeroDesafio;
-        
+        // Lanzamos la pantalla de bloqueo limpia
         document.getElementById('pantalla-bloqueo-pago').style.display = 'flex';
         return true;
     }
@@ -635,12 +650,18 @@ function comprobarRestriccionMano() {
 }
 
 function validarCodigoPagoSistema() {
-    const entrada = parseInt(document.getElementById('input-clave-activacion').value.trim());
-    const numeroDesafio = parseInt(document.getElementById('display-id-usuario').innerText);
-    
-    let claveCorrecta = numeroDesafio * 5;
+    // Leemos el código y lo pasamos a mayúsculas automático
+    const entrada = document.getElementById('input-clave-activacion').value.trim().toUpperCase();
 
-    if (entrada === claveCorrecta) {
+    // Verificamos si existe en el listado base
+    if (LISTA_CONTRASENAS_VALIDAS.includes(entrada) || entrada === CLAVE_MAESTRA_DESARROLLADOR) {
+        
+        // Removemos de la sesión temporal para que no repitan el mismo código
+        const index = LISTA_CONTRASENAS_VALIDAS.indexOf(entrada);
+        if (index > -1) {
+            LISTA_CONTRASENAS_VALIDAS.splice(index, 1);
+        }
+
         app.sistemaDesbloqueado = true;
         localStorage.setItem('SAM_STATUS_RELEASED_' + app.slotActual, 'OK');
         document.getElementById('pantalla-bloqueo-pago').style.display = 'none';
@@ -651,9 +672,9 @@ function validarCodigoPagoSistema() {
         } else { 
             document.getElementById('setup').style.display = 'block'; 
         }
-        alert("🔓 CONTRASEÑA VERIFICADA CORRECTAMENTE: Nodo verificado y liberado.");
+        alert("🔓 SISTEMA COMPROBADO: Licencia ZUSU-SAM validada con éxito.");
     } else { 
-        alert("⚠️ CONTRASEÑA INCORRECTA."); 
+        alert("⚠️ CÓDIGO INVÁLIDO. Asegúrese de ingresar una clave de activación autorizada."); 
     }
 }
 
@@ -695,37 +716,33 @@ function verificarSlotExistente() {
     const datosRaw = localStorage.getItem(app.slotActual);
     const bloqueDetectado = document.getElementById('bloque-guardado-detectado');
     const bloqueConfig = document.getElementById('bloque-config-inicial');
-    const btnCrear = document.getElementById('btn-crear-sorteo-inicial');
-    const alertaSobrescritura = document.getElementById('alerta-bloqueo-sobrescritura');
+    const advertenciaBloqueo = document.getElementById('advertencia-sobreescritura-bloqueo');
 
-    if(datosRaw) {
-        if(!app.configurandoLimpio) {
-            bloqueDetectado.style.display = 'block';
-            bloqueConfig.style.display = 'none';
-        } else {
-            // BLINDAJE EJECUTADO: Si hay datos en memoria y el usuario forzó ver el formulario limpio, bloqueamos el botón de creación
-            bloqueDetectado.style.display = 'none';
-            bloqueConfig.style.display = 'block';
-            btnCrear.disabled = true;
-            alertaSobrescritura.style.display = 'block';
-        }
+    if(datosRaw && !app.configurandoLimpio){
+        bloqueDetectado.style.display = 'block';
+        bloqueConfig.style.display = 'none';
+        advertenciaBloqueo.style.display = 'none';
+    } else if (datosRaw && app.configurandoLimpio) {
+        bloqueDetectado.style.display = 'block';
+        bloqueConfig.style.display = 'none';
+        advertenciaBloqueo.style.display = 'block';
+        document.getElementById('btn-atras-selector').style.display = 'block';
     } else {
         bloqueDetectado.style.display = 'none';
         bloqueConfig.style.display = 'block';
-        btnCrear.disabled = false;
-        alertaSobrescritura.style.display = 'none';
+        advertenciaBloqueo.style.display = 'none';
     }
 }
 
 function forzarDespliegueFormularioLimpio(activa) {
     app.configurandoLimpio = activa;
-    document.getElementById('btn-atras-selector').style.display = activa ? 'block' : 'none';
     verificarSlotExistente();
 }
 
 function cancelarConfigLimpio() {
     app.configurandoLimpio = false;
-    forzarDespliegueFormularioLimpio(false);
+    document.getElementById('btn-atras-selector').style.display = 'none';
+    verificarSlotExistente();
 }
 
 function cargarSanExistenteFijo() {
@@ -733,7 +750,7 @@ function cargarSanExistenteFijo() {
     if (!datosRaw) return;
     const data = JSON.parse(datosRaw);
     app.socios = data.socios;
-    app.poteFijo = data.poteFijo || (data.cuota * data.socios.length); 
+    app.poteFijo = data.poteFijo || (data.cuota * data.socios.length);
     app.cuota = data.cuota;
     app.ronda = data.ronda || 1;
     app.frecuencia = data.frecuencia || 'Semanal';
@@ -747,9 +764,8 @@ function cargarSanExistenteFijo() {
 }
 
 function iniciarNuevoSanConSorteoInmediato() {
-    // Protección doble en la función por si intentan saltarse el bloqueo visual
-    if(localStorage.getItem(app.slotActual)) {
-        alert("🛑 OPERACIÓN RECHAZADA: Esta ranura ya contiene registros activos. Use el Borrado General si desea vaciarla.");
+    if(localStorage.getItem(app.slotActual) && app.configurandoLimpio) {
+        alert("Operación denegada. La ranura tiene datos activos. Use el Borrado General para limpiar el bloque antes de sobreescribir.");
         return;
     }
 
@@ -831,7 +847,7 @@ function ejecutarTombolaDigitalInicial() {
             const h = new Date();
             const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
             ganador.fechaAdjudicacion = `${h.getDate()}-${meses[h.getMonth()]}-2026`;
-            ganador.totalRecibido = app.poteFijo; 
+            ganador.totalRecibido = app.poteFijo;
             ganador.manoCorona = app.ronda;
 
             resguardarLocalmente();
@@ -874,7 +890,6 @@ function dibujarTablero() {
     document.getElementById('display-ronda-badge').innerText = `MANO ${app.ronda}`;
     document.getElementById('active-slot-badge').innerText = app.slotActual.replace('_', ' ');
     document.getElementById('display-cuota-actual').innerText = `$${app.cuota}.00`;
-
     document.getElementById('input-pote-objetivo').value = app.poteFijo;
 
     let tasaAdmin = parseFloat(document.getElementById('input-tasa-administrador').value) || 0;
@@ -1063,7 +1078,6 @@ function calcularYRenderizarAuditoria() {
         if (pagosPendientesCard < 0) pagosPendientesCard = 0;
 
         let montoPorPagarFinal = 0;
-
         let estadoRondaActual = socio.historialPagos[app.ronda] || "Pendiente";
         
         if (estadoRondaActual === "OK") {
@@ -1123,12 +1137,12 @@ function agregarSocioEnCaliente() {
     document.getElementById('nuevo-nombre').value = "";
     document.getElementById('nuevo-pago').value = "";
     resguardarLocalmente();
-    alert("Integrante incorporado con éxito por acuerdo de los integrantes. La cuota individual ha sido reajustada automáticamente.");
+    alert("Integrante incorporado con éxito. La cuota individual ha sido reajustada automáticamente.");
     calcularYRenderizarAuditoria();
 }
 
 function eliminarSanCompleto() {
-    if(!confirm("🔥 ALERTA DE SEGURIDAD: ¿Desea formatear la memoria completa de esta ranura? Esta acción borrará el libro de actas local definitivamente y desvincula las firmas.")) return;
+    if(!confirm("🔥 ALERTA DE SEGURIDAD: ¿Desea formatear la memoria completa de esta ranura?")) return;
     localStorage.removeItem(app.slotActual);
     localStorage.removeItem('SAM_STATUS_RELEASED_' + app.slotActual);
     location.reload();
@@ -1163,7 +1177,7 @@ function abrirPuenteSlots() {
             if(localStorage.getItem(id)){
                 cargarSanExistenteFijo();
             } else {
-                app.socios = []; app.ronda = 1;
+                app.socios = []; app.ronda = 1; app.configurandoLimpio = false;
                 document.getElementById('main').style.display = 'none';
                 document.getElementById('setup').style.display = 'block';
                 ejecutarRadarYConstruirMenu(id);
